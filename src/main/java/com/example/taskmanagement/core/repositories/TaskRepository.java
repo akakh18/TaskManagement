@@ -14,4 +14,6 @@ public interface TaskRepository {
     void changeStatus(String title, String status);
 
     String getDescription(String title);
+
+    List<Task> getMyTasks(String username);
 }

@@ -4,6 +4,7 @@ import com.example.taskmanagement.core.repositories.TaskRepository;
 import com.example.taskmanagement.core.tasks.Task;
 import com.example.taskmanagement.infra.daos.TaskRepositoryDAO;
 import com.example.taskmanagement.infra.entity.TaskEntity;
+import com.example.taskmanagement.infra.entity.UserEntity;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -27,6 +28,14 @@ public class TaskJPARepository implements TaskRepository {
     @Override
     public Task getByTaskId(Long id) {
         return Task.from(taskRepositoryDAO.findById(id).orElseThrow());
+    }
+
+    @Override
+    public List<Task> getMyTasks(String username) {
+        UserEntity user = new UserEntity();
+        user.setUsername(username);
+        return taskRepositoryDAO.findAllByAssigneesContainingOrAuthor(user, username)
+                .stream().map(Task::from).collect(Collectors.toList());
     }
 
     @Override

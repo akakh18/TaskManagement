@@ -61,4 +61,9 @@ public class TaskService {
     public Task getById(Long id) {
         return taskRepository.getByTaskId(id);
     }
+
+    public List<Task> getMyTasks(String email) {
+        User user = userService.getByEmail(email);
+        return taskRepository.getMyTasks(user.getUsername());
+    }
 }

@@ -54,4 +54,16 @@ public class TaskInMemoryRepository implements TaskRepository {
 
         return null;
     }
+
+    @Override
+    public List<Task> getMyTasks(String username) {
+        List<Task> result = new ArrayList<>();
+
+        for (Task task : tasks) {
+            if (task.getAssignees().contains(username) || task.getAuthor().equals(username)) {
+                result.add(task);
+            }
+        }
+        return result;
+    }
 }

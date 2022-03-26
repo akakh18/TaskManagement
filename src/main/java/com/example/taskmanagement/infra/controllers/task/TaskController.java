@@ -49,7 +49,7 @@ public class TaskController {
 
     @GetMapping("/profile")
     public FilterTasksResponseDTO getMyTasks(Principal principal) {
-        return null;
+        return new FilterTasksResponseDTO(taskService.getMyTasks(principal.getName()));
     }
 
 }
