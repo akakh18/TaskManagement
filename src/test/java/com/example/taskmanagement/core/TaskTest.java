@@ -1,10 +1,15 @@
-package com.example.userstories.core;
+package com.example.taskmanagement.core;
 
-import com.example.userstories.core.tasks.Task;
-import org.junit.Test;
+import com.example.taskmanagement.core.tasks.Task;
+import com.example.taskmanagement.infra.controllers.task.dto.CreateTaskDTO;
+import com.example.taskmanagement.infra.entity.TaskEntity;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.testng.annotations.Test;
 
-import static com.example.userstories.core.tasks.Status.DONE;
+import java.util.Collections;
+import java.util.Date;
+
+import static com.example.taskmanagement.core.tasks.Status.DONE;
 
 @SpringBootTest
 public class TaskTest {
@@ -12,7 +17,7 @@ public class TaskTest {
 
     @Test
     public void testTaskShouldBeCreated() {
-        Task task = new Task();
+        new Task();
     }
 
     @Test
@@ -66,5 +71,29 @@ public class TaskTest {
         task.setAuthor(authorName);
 
         assert task.getAuthor().equals(authorName);
+    }
+
+    @Test
+    public void testTaskShouldHaveDeadline() {
+        Task task = new Task();
+        task.setDue(new Date());
+        assert task.getDue() != null;
+    }
+
+    @Test
+    public void testTaskShouldBeCreatedFromEntity() {
+        TaskEntity entity = new TaskEntity();
+        entity.setTitle("TEST");
+        entity.setAssignees(Collections.emptyList());
+        assert Task.from(entity).getTitle().equals("TEST");
+    }
+
+    @Test
+    public void testTaskShouldBeCreatedFromDTO() {
+        CreateTaskDTO dto = new CreateTaskDTO();
+        String[] assignees = new String[0];
+        dto.setAssignees(assignees);
+        dto.setTitle("TEST");
+        assert Task.from(dto).getTitle().equals("TEST");
     }
 }
